@@ -1,7 +1,14 @@
 <template>
   <form>
-    <input v-model="coder.name" />
-    <input v-model="coder.commits" type="number" min="0" step="1" />
+    <input class="border mb-2" :value="coder.name" @input="onNameInput" />
+    <input
+      class="border"
+      :value="coder.commits"
+      type="number"
+      @input="onCommitInput"
+      min="0"
+      step="1"
+    />
   </form>
 </template>
 
@@ -22,12 +29,28 @@ export default {
     }
   },
   mounted() {
-    this.coder = this.value
+    this.coder = { ...this.value }
   },
   watch: {
-    value(newVal){
-      this.$emit('input', newVal)
-    }
-  }
+    coder: {
+      deep: true,
+      handler(coder) {
+        console.log('FormChild emits "input"', {coder})
+        this.$emit('input', coder)
+      },
+    },
+  },
+  methods: {
+    onNameInput(event) {
+      const name = event.target.value
+      console.log('name changed', name);
+      this.$set(this.coder, 'name', name)
+    },
+    onCommitInput(event) {
+      const commits = Number(event.target.value)
+      console.log('commits changed', commits);
+      this.$set(this.coder, 'commits', commits)
+    },
+  },
 }
 </script>

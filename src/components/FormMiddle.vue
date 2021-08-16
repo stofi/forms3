@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div v-for="(coder, index) in coders" :key="index">
-      <FormChild :valuel="coder" @input="onInput($event, index)" />
+  <div class="space-y-4">
+    <div v-for="(coder, index) in coders" :key="index" >
+      <FormChild :value="coder" @input="onInput($event, index)" />
     </div>
   </div>
 </template>
@@ -22,9 +22,11 @@ export default {
   },
   methods: {
     onInput(coder, index) {
-      const clonedCoders = JSON.parse(JSON.stringify(this.coders))
+      console.log('FormMiddle recieves "input"', {coder, index});
+      const clonedCoders = [...this.coders]
       clonedCoders[index] = coder
       this.$emit('input', clonedCoders)
+      console.log('FormMiddle emits "input"', {clonedCoders});
     },
   },
 }

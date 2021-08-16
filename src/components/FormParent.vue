@@ -34,5 +34,10 @@ export default {
       ],
     }
   },
+  watch: {
+    coders(coders) {
+      console.log('FormParent "coders" watcher', {coders});
+    }
+  }
 }
 </script>
