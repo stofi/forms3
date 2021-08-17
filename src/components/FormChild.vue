@@ -1,9 +1,9 @@
 <template>
   <form>
-    <input class="border mb-2" :value="coder.name" @input="onNameInput" />
+    <input class="border mb-2" :value="value.name" @input="onNameInput" />
     <input
       class="border"
-      :value="coder.commits"
+      :value="value.commits"
       type="number"
       @input="onCommitInput"
       min="0"
@@ -20,36 +20,22 @@ export default {
       default: () => ({}),
     },
   },
-  data() {
-    return {
-      coder: {
-        name: '',
-        commits: 0,
-      },
-    }
-  },
-  mounted() {
-    this.coder = { ...this.value }
-  },
-  watch: {
-    coder: {
-      deep: true,
-      handler(coder) {
-        console.log('FormChild emits "input"', {coder})
-        this.$emit('input', coder)
-      },
-    },
-  },
   methods: {
     onNameInput(event) {
       const name = event.target.value
       console.log('name changed', name);
-      this.$set(this.coder, 'name', name)
+      this.$emit('input', {
+        ...this.value,
+        name,
+      })
     },
     onCommitInput(event) {
       const commits = Number(event.target.value)
       console.log('commits changed', commits);
-      this.$set(this.coder, 'commits', commits)
+      this.$emit('input', {
+        ...this.value,
+        commits,
+      })
     },
   },
 }
